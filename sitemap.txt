@@ -1,2 +1,4 @@
-http://example.com/2022/08/16/hello-world/
+http://example.com/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/
 http://example.com/
+http://example.com/tags/ucos/
+http://example.com/categories/IOT/

@@ -1,0 +1,629 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>u/cos ii | Hexo</title><meta name="keywords" content="ucos"><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="u&#x2F;cos ii移植相关知识点u&#x2F;cos ii系统一、实时操作系统的概念实时操作系统（RTOS）是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统做出快速响应，调度一切可利用的资源完成实时任务，并控制所有实时任务协调一致运行的操作系统。提供及时响应和高可靠性是其主要特点。  1.实时操作系统与一般的操作系统相">
+<meta property="og:type" content="article">
+<meta property="og:title" content="u&#x2F;cos ii">
+<meta property="og:url" content="http://example.com/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="u&#x2F;cos ii移植相关知识点u&#x2F;cos ii系统一、实时操作系统的概念实时操作系统（RTOS）是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统做出快速响应，调度一切可利用的资源完成实时任务，并控制所有实时任务协调一致运行的操作系统。提供及时响应和高可靠性是其主要特点。  1.实时操作系统与一般的操作系统相">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-05-29T13:42:56.000Z">
+<meta property="article:modified_time" content="2022-08-16T11:26:22.719Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ucos">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'u/cos ii',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-16 19:26:22'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://gitee.com/FriedRicenoodles/pictures/raw/master/img/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20220530204346.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">u/cos ii</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-05-29T13:42:56.000Z" title="Created 2022-05-29 21:42:56">2022-05-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-08-16T11:26:22.719Z" title="Updated 2022-08-16 19:26:22">2022-08-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/IOT/">IOT</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="u/cos ii"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="u-x2F-cos-ii移植相关知识点"><a href="#u-x2F-cos-ii移植相关知识点" class="headerlink" title="u&#x2F;cos ii移植相关知识点"></a>u&#x2F;cos ii移植相关知识点</h1><h2 id="u-x2F-cos-ii系统"><a href="#u-x2F-cos-ii系统" class="headerlink" title="u&#x2F;cos ii系统"></a>u&#x2F;cos ii系统</h2><h3 id="一、实时操作系统的概念"><a href="#一、实时操作系统的概念" class="headerlink" title="一、实时操作系统的概念"></a>一、实时操作系统的概念</h3><p><strong>实时操作系统（RTOS）</strong>是指当外界事件或数据产生时，能够接受并以足够快的速度予以处理，其处理的结果又能在规定的时间之内来控制生产过程或对处理系统做出快速响应，调度一切可利用的资源完成实时任务，并控制所有实时任务协调一致运行的操作系统。提供及时响应和高可靠性是其主要特点。</p>
+<blockquote>
+<p>1.实时操作系统与一般的操作系统相比，最大的特色就是“实时性”，如果有一个任务需要执行，实时操作系统会马上（在较短时间内）执行该任务，不会有较长的延时。这种特性保证了各个任务的及时执行。</p>
+</blockquote>
+<blockquote>
+<p>2.实时操作系统中都要包含一个<strong>实时任务调度器</strong>， 这个任务调度器与其它操作系统的最大不同是强调：严格按照优先级来分配CPU时间，并且时间片轮转<strong>不是</strong>实时调度器的一个必选项。</p>
+</blockquote>
+<blockquote>
+<p>时间片轮转：系统将所有的就绪进程按先来先服务的原则排成一个队列，每次调度时，把CPU分配给队首进程，并令其执行一个时间片。当执行的时间片用完时，由一个计时器发出时间中断请求，调度程序便据此信号来停止该进程的执行，并将它送往就绪列表的队尾；然后，再把处理分配机分配给就绪队列中的新的队首进程，同时也让它执行一个时间片。这样就可以保证就绪队列中的所有的进程在一个给定的时间内均能获得一时间片的处理执行时间。</p>
+</blockquote>
+<p>实时操作系统的特性是在整个操作系统的设计思路上都要时刻关注实时性:</p>
+<blockquote>
+<blockquote>
+<p><strong>1. 实时的消息、事件处理机制。</strong> </p>
+</blockquote>
+<blockquote>
+<p><strong>2. 提供内核级的优先级翻转处理方式</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>3. 减少粗粒度的锁和长期关中断的使用</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>4. 系统级的服务也要保证实时性</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>5. 避免提供实时性不确定的API</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>6. 提供针对实时系统调度的专用API</strong></p>
+</blockquote>
+</blockquote>
+<p>提出实时操作系统的概念，可以至少解决两个问题：一个是早期的CPU任务切换的开销太大，实时调度器可以避免任务频繁切换导致CPU时间的浪费；另一个是在一些特殊的应用场景中，必须要保证重要的任务优先被执行。</p>
+<h3 id="二、任务的相关概念"><a href="#二、任务的相关概念" class="headerlink" title="二、任务的相关概念"></a>二、任务的相关概念</h3><blockquote>
+<p>在设计一个较为复杂的应用程序时，通常把一个大型任务分解成多个小任务，这样使系统并发的运行多个任务，从而提高处理器利用率，加快程序的执行过程。<br>在UCOSII中，与上述小任务对应的程序实体就叫“任务”，UCOSII是一个能对这些小任务的运行进行管理和调度的多任务操作系统。<br>从代码上看。UCOSII的任务就是一个个函数。而从任务的存储结构上看，ucos的任务由三部分组成：<strong>任务程序代码（函数）</strong>、<strong>任务堆栈</strong>和<strong>任务控制块</strong>。</p>
+</blockquote>
+<p>系统在运行一个任务的时候,按照任务的优先级获取任务控制块,再在任务堆栈中获得任务代码指针。</p>
+<p>ucos-II的任务由三个组成部分构成：任务程序代码，任务堆栈和任务控制块。</p>
+<p>其中任务控制块用来保存任务属性；任务堆栈用来保存任务的工作环境；任务程序代码是任务的执行部分。</p>
+<h4 id="2-1-任务的控制块"><a href="#2-1-任务的控制块" class="headerlink" title="2.1 任务的控制块"></a>2.1 任务的控制块</h4><p>任务控制块是一个结构体数据结构，用于记录各个任务的信息。当任务的CPU的使用权被剥夺时，uCOS-II用它来保存任务的当前状态。当任务重新获得CPU的使用权时，任务控制块能确保任务从当时被中断的那一点丝毫不差的继续执行。任务控制块全部存放在RAM中。</p>
+<p>对于RTOS来说，为每一个任务分配一个称为<strong>任务控制块</strong>的结构体变量来管理任务，即使用<strong>指向任务控制块结构体变量的指针</strong>来识别任务。任务控制块是多任务操作系统的核心数据，如果操作错误，可能导致系统崩溃。所以这个指针不应当提供给用户程序。</p>
+<h4 id="2-2-任务的堆栈"><a href="#2-2-任务的堆栈" class="headerlink" title="2.2 任务的堆栈"></a>2.2 任务的堆栈</h4><blockquote>
+<p>每个任务都有自己的堆栈，来保存自身的信息。这是每个任务自己的资源。里面保存了任务的私有信息，在进行任务切换时，会把任务的信息保存在当前的堆栈里。</p>
+</blockquote>
+<p>保存的主要信息有：</p>
+<ol>
+<li>任务的断点信息。</li>
+<li>任务堆栈信息。</li>
+<li>PSW 程序状态字寄存器。</li>
+<li>任务的寄存器信息</li>
+</ol>
+<h4 id="2-3-任务的链表"><a href="#2-3-任务的链表" class="headerlink" title="2.3 任务的链表"></a>2.3 任务的链表</h4><p>μC&#x2F;OS-II将任务控制块分成两个链表来管理，这就是<strong>空闲任务链表</strong>和<strong>就绪任务链表</strong>。其中，空闲任务链表包含了所有空闲的任务控制块。所谓空闲任务控制块，是指未分配给某个任务的任务控制块。创建一个新任务，前提条件是系统中还有这样的空闲任务块。<strong>就绪链表</strong>则是将所有的就绪任务拴在一起，如果有新的任务就绪，就要将其任务控制块从空闲链表中取出，加入到就绪链表中。</p>
+<p>操作系统刚启动的时候，在没有执行主程序（main）任何代码之前，只有前一节的任务控制块数组，还没有空闲任务链表和就绪任务链表，或者说这两个链表都空着。这两个链表是在操作系统的初始化程序OSInit中创建的。</p>
+<p>需要注意的是，就绪链表是双向链表，而空闲链表只是一个单向链表。OSTCBFreeList永远指向空闲链表的表头，如果它为0，说明没有空闲任务控制块了；OSTCBList永远指向就绪表的表头，如果它为0，说明没有就绪的任务了。</p>
+<p><img src="/Picture/%E4%BB%BB%E5%8A%A1%E6%8E%A7%E5%88%B6%E5%9D%97.png"></p>
+<h4 id="2-4-ucos-II系统任务"><a href="#2-4-ucos-II系统任务" class="headerlink" title="2.4 ucos-II系统任务"></a>2.4 ucos-II系统任务</h4><p>1、空闲任务：系统在运行中可能在某个时间内无用户任务可运行而处于空闲状态，为了使CPU在没有用户任务可执行时有事可做，uCOS-II提供了一个空闲任务OSTaskIdle()：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 空任务的具体执行函数，位于os_core.c */</span></span><br><span class="line"><span class="type">void</span>  <span class="title function_">OS_TaskIdle</span> <span class="params">(<span class="type">void</span> *p_arg)</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> OS_CRITICAL_METHOD == 3     <span class="comment">/* Allocate storage for CPU status register */</span></span></span><br><span class="line">    OS_CPU_SR  cpu_sr = <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">   (<span class="type">void</span>)p_arg;                 <span class="comment">/* Prevent compiler warning for not using &#x27;p_arg&#x27; */</span></span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        OS_ENTER_CRITICAL();</span><br><span class="line">        OSIdleCtr++;            <span class="comment">/* 只是执行自加全局变量OSIdleCtr */</span></span><br><span class="line">        OS_EXIT_CRITICAL();</span><br><span class="line">        OSTaskIdleHook();       <span class="comment">/* Call user definable HOOK */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>uCOS-II规定，系统中必须使用空闲任务，且该任务不能通过程序删除。</p>
+<p>2、统计任务：统计任务用于每1S计算一次CPU在单位内被使用的时间，并把计算结果以百分比的形式存放在变量OSCPUsage中，便于其他应用程序来获取CPU的利用率。是否使用统计任务，用户可以根据OS_TASK_STAT_EN宏来配置使能与否。</p>
+<p>3、时钟节拍任务：此任务也是必须创建的任务</p>
+<p>4、定时任务：用来向用户提供定时服务，也是可选任务，由宏OS_CFG_TMR_EN控制是否使用此任务。</p>
+<p>5、中断服务管理任务：可选任务，由宏OS_CFG_ISR_POST_DEFERRED_EN控制是否使用次任务。</p>
+<p><strong>ucos-ii临界区</strong></p>
+<ul>
+<li><p>临界段代码，也称作临界域，是一段不可分割的代码，一段在执行的时候不能被中断的代码段。在 uCOS 里面，这个临界段最常出现的就是对全局变量的操作，进入代码临界段后，不允许中断的打入，进入临界段使用OS_ENTER_CRITICAL()函数，退出临界段使用OS_EXIT_CRITICAL()。</p>
+</li>
+<li><p>和其它内核一样，μC&#x2F;OS-Ⅱ为了处理临界段代码需要关中断，处理完毕后再开中断。这使得μC&#x2F;OS-Ⅱ能够避免同时有其它任务或中断服务进入临界段代码。</p>
+</li>
+</ul>
+<h4 id="2-5-任务的状态"><a href="#2-5-任务的状态" class="headerlink" title="2.5 任务的状态"></a>2.5 任务的状态</h4><ol>
+<li>休眠态：任务已经在CPU中的Flash中，但还是不受ucos-II管理。</li>
+<li>就绪态：系统为任务分配了任务控制块，并且任务已经在就绪表中登记，这时这个任务就具备了运行的条件，此时任务的状态就是就绪态。</li>
+<li>运行态：处于就绪态的任务经系统调度获得CPU的使用权，任务就进入运行态。就绪的任务只有当所有高于本任务优先级的任务都处于等待态才能进入运行态。</li>
+<li>等待态：正在运行的任务需要等待一段时间或者需要等待一个事件的发生(event)的发生再运行时，该任务就会将CPU的使用权让给其他任务而让自己进入等待态。</li>
+<li>中断服务状态：一个正在运行的任务一旦响应终端请求就会中止当前的运行转而去执行中断服务程序(下称ISR)，此时任务的状态就叫做中断服务状态。</li>
+</ol>
+<p><img src="/Picture/%E4%BB%BB%E5%8A%A1%E7%8A%B6%E6%80%81.png"></p>
+<h3 id="三、任务调度的相关概念"><a href="#三、任务调度的相关概念" class="headerlink" title="三、任务调度的相关概念"></a>三、任务调度的相关概念</h3><h4 id="3-1-任务调度"><a href="#3-1-任务调度" class="headerlink" title="3.1 任务调度"></a>3.1 任务调度</h4><p>任务调度的作用：一是在任务就绪表中查找优先级最高的就绪任务，二是实现任务的切换。比如说，当一个任务释放 cpu 控制权后，进行一次任务调度，这个时候任务调度器首先要去任务就绪表查询优先级最高的就绪任务，查到之后，进行一次任务切换，转而去执行下一个任务。</p>
+<h4 id="3-2-任务的切换"><a href="#3-2-任务的切换" class="headerlink" title="3.2 任务的切换"></a>3.2 任务的切换</h4><p>概念：CPU寄存器内容切换。当多任务内核决定运行另外的任务时，它保存正在运行任务的当前状态（Context），即CPU寄存器中的全部内容。这些内容保存在任务的当前状况保存区（Task’s Context Storage area），也就是任务自己的栈区之中，入栈工作完成以后，就是把下一个将要运行的任务的当前状况从该任务的栈中重新装入CPU的寄存器，并开始下一个任务的运行。这个过程叫做任务切换。任务切换过程增加了应用程序的额外负荷。CPU的内部寄存器越多，额外负荷就越重。做任务切换所需要的时间取决于 CPU有多少寄存器要入栈。实时内核的性能不应该以每秒钟能做多少次任务切换来评价。 </p>
+<p><strong>切换机制：</strong></p>
+<blockquote>
+<p>需要任务切换时，就必须尽快切换（虽然由于优先级问题，仍然是本任务，但仍需相应一下）；而一些处理器提供的中断机制就刚好满足这个需求，从而奠定了切换的基础。中断分为软中断和硬中断。所谓的软中断就是可有程序自身触发的中断（例如，SWI）；而硬中断则是硬件本身检测到中断触发信号而强制触发中断。众所周知，任务就是一个个死循环，没有切换则一直执行程序。而切换又分为两类：自身切换（类似于自废武功）和强制切换（类似于暴力实施）。任务的自身切换是由程序自身触发的，从而使用软中断；强制切换则是达到允许执行时间后，而由硬件强制切换的，从而使用硬中断。<br>任务的自身切换则是因为任务本身知道自身在等待某个消息，而不想让CPU在自己身上空运行而触发中断；从而任务切换程序里面 OS_Sched() 就是调用的软中断OS_TASK_SW();<br>任务的强制切换则是因为任务本身的运行寿命到达限制，CPU强制切换到别的任务，让其他任务有执行的机会。从而负责强制切换的为定时器中断（ interrupt  66 void OSTickISR(void)），其内部调用函数（void  OSTimeTick (void)）便负责任务切换的具体事务。<br>然而，不管软中断也好硬中断也罢，它们只是手段；最根本的就是任务堆栈的切换（改变SP的指向）。 </p>
+</blockquote>
+<p>SP指针： 由堆栈设计者确定。对于硬件堆栈计算机中的堆栈是计算机存储数据的一种数据结构，SP的作用就是指示当前要出栈或入栈的数据，并在操作执行后自动递增或递减。</p>
+<p>(将保存当前任务的现场到当前任务的堆栈中，主要是CPU寄存器值，然后恢复新的现场并且执行新的任务，这个过程就是任务切换)</p>
+<p>任务切换分为两种：任务级切换和中断级切换，任务级的调度器OSSched(),中断级的调度器OSIntExit()。</p>
+<h4 id="3-3-任务的优先级"><a href="#3-3-任务的优先级" class="headerlink" title="3.3 任务的优先级"></a>3.3 任务的优先级</h4><p>概念：当有多个任务处于就绪状态时，系统需要在这些任务中选择一个来运行。就绪任务有多个，CPU却有一个，所以CPU需要一个规则来进行选择。uCOS-II采用优先级抢占规则。系统中的每一个任务根据其重要性都配有一个唯一的优先级(uCOS-II中，每一个优先级只能有一个任务)，优先级高的任务先得到执行，优先级低的任务后执行。(数值越小优先级越高)</p>
+<p>分配的建议：</p>
+<ol>
+<li>任务运行时间越短，应该分配的优先级越高，<strong>高优先级要能主动放弃cpu</strong>。</li>
+<li>实时性要求比较高的任务应该分配一个较高的优先级	</li>
+<li>对于运行速度较快的任务应该分配一个较高的优先级</li>
+<li>任务在逻辑之前应该分配一个较高的优先级</li>
+</ol>
+<p><strong>优先级反转翻转：</strong></p>
+<p>如果有3个任务A，B，C优先级分别为1，2，3。A，C两个任务都会获取信号量，C任务在获取信号量后被A任务打断，然后A任务操作到信号量时发现有任务占住了信号量。这时就会继续让C执行，在C执行期间B又抢占了cpu，然后C等B结束后才能继续运行，A等C结束后才能再次运行，就导致了A任务最后才执行完。</p>
+<p>uCO S-II对优先级翻转问题的解决</p>
+<ul>
+<li>优先级继承</li>
+</ul>
+<p>先判断占有共享资源的任务是否阻塞了高优先级任务，再决定是否提升，提升任务的优先级至天花板。即当任务A申请共享资源S时，首先判断是否有别的任务正占用该资源，若没有则A基础执行；若有任务C正在正在占有该资源，则判断任务C的优先级是否高于任务A自身，若是则A挂起，等待任务C释放该资源，若任务C的优先级低于任务A则提升任务C的优先级为高优先级，当任务C释放资源后，再恢复到原优先级。</p>
+<p>OSTaskResum函数可以唤醒一个用 OSTaskSuspend函数挂起的任务。OSTaskResume是唯一能<strong>解挂</strong>任务的函数。</p>
+<p>函数被调用后先判断解挂的任务是否存在，解挂任务是否被挂起，是不是等待任务，然后清除挂起记录，加入任务就绪表内，启用任务调度器。</p>
+<h4 id="3-4-任务优先级分配的原则"><a href="#3-4-任务优先级分配的原则" class="headerlink" title="3.4 任务优先级分配的原则"></a>3.4 任务优先级分配的原则</h4><p>1、对于实时性要求高的任务应该分配较高的优先级。</p>
+<p>2、对于运行速度较快的任务应该分配较高的优先级。</p>
+<p>3、任务在逻辑之前的要分配较高的优先级。</p>
+<p>静态优先级：是在创建进程时确定的，且在进程的整个运行期间保持不变。</p>
+<p>动态优先级：是在创建进程时赋予该进程一个初始优先级，然后其优先级随着进程的执行情况的变化而改变，以便获得更好的调度性能。</p>
+<h4 id="3-6-任务的挂起"><a href="#3-6-任务的挂起" class="headerlink" title="3.6 任务的挂起"></a>3.6 任务的挂起</h4><blockquote>
+<p>所谓挂起一个任务，就是暂停这个任务的运行，但它仍然占用一定的内存空间，有可能对CPU也在占用着。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">所属文件</th>
+<th align="center">调用者</th>
+<th align="center">开关量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">OS_TASK.C</td>
+<td align="center">任务或中断</td>
+<td align="center">无</td>
+</tr>
+</tbody></table>
+<p>OSTaskSuspend（）无条件挂起一个任务。调用此函数的任务也可以传递参数OS_PRIO_SELF，挂起调用任务本身。当前任务挂起后，只有其他任务才能唤醒。任务挂起后，系统会重新进行任务调度，运行下一个优先级最高的就绪任务。唤醒挂起任务需要调用函数OSTaskResume （）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">TaskX</span><span class="params">(<span class="type">void</span> *pdata)</span></span><br><span class="line">&#123;</span><br><span class="line">    INT8U err;</span><br><span class="line">        <span class="keyword">for</span> (;;) &#123;</span><br><span class="line"></span><br><span class="line">        err = OSTaskSuspend(OS_PRIO_SELF); <span class="comment">/* 挂起当前任务 */</span></span><br><span class="line">        <span class="comment">/* 当其他任务唤醒被挂起任务时，任务可继续运行 */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-7-任务的恢复"><a href="#3-7-任务的恢复" class="headerlink" title="3.7 任务的恢复"></a>3.7 任务的恢复</h4><blockquote>
+<p>一个任务被挂起之后，想要再次被执行，是需要恢复的，恢复任务需要调用, 任务恢复的实现基本上任务挂起的反向操作。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">所属文件</th>
+<th align="center">调用者</th>
+<th align="center">开关量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">OS_TASK.C</td>
+<td align="center">OS_TASK.C</td>
+<td align="center">OS_TASK_SUSPEND_EN</td>
+</tr>
+</tbody></table>
+<p>OSTaskResume （）唤醒一个用OSTaskSuspend（）函数挂起的任务。OSTaskResume（）也是唯一能“解挂”挂起任务的函数。</p>
+<p>代码范例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">TaskX</span><span class="params">(<span class="type">void</span> *pdata)</span></span><br><span class="line">&#123;</span><br><span class="line">    INT8U err;</span><br><span class="line">    <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">        err = OSTaskResume(<span class="number">10</span>); <span class="comment">/* 唤醒优先级为10的任务 */</span></span><br><span class="line">        <span class="keyword">if</span> (err == OS_NO_ERR) &#123;</span><br><span class="line">         <span class="comment">/* 任务被唤醒 */</span></span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>任务常用函数：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OSTaskCreate();<span class="comment">//函数 用于创建一个任务</span></span><br><span class="line"></span><br><span class="line">OSTaskSuspend();<span class="comment">//函数用于挂起一个任务</span></span><br><span class="line"></span><br><span class="line">OSTaskSuspend();<span class="comment">//函数用于恢复被挂起的任务</span></span><br><span class="line"></span><br><span class="line">OSTaskChangePrio();<span class="comment">//函数用于调整任务的优先级（必须把宏定义OS_TASK_CHANGE_PRIO_EN打开 ）</span></span><br><span class="line"></span><br><span class="line">OSTaskDel();<span class="comment">//函数用于删除任务（必须把宏定义OS_TASK_DEL_EN打开）</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="四、中断的相关概念"><a href="#四、中断的相关概念" class="headerlink" title="四、中断的相关概念"></a>四、中断的相关概念</h3><blockquote>
+<p>中断通常被定义为一个事件，该事件能够改变处理器执行指令的顺序。这样的事件与 CPU 芯片内外部硬件电路产生的电信号相应。</p>
+</blockquote>
+<p><strong>中断的作用</strong>：跟据中断的定义，我们可以通过中断使处理器转而去优先运行正常控制流之外的代码。当中断信号达到时，CPU 必须停止它当前正在做的事情，并且切换到一个另一个活动。为了做到这就要在内核态堆栈保存程序计数器的当前值 (ftn eip cs 存器的内容) ，并把与中断类型相关的个地址放进程序计数量.</p>
+<p><strong>中断的约束：</strong>中断处理是由内核执行的最敏感的任务之一，因为它必须满足下列约束:</p>
+<p>1）中断应该被尽可能快地处理完。<br>2）中断处理程序必须编成使相应的内核控制路径能以嵌套的方式执行。<br>3）内核在处理一个中断时，可接受新的中断。但存在一个临界区，中断必须被禁止。</p>
+<p>出于1）和3）的约束，中断的设计一般将中断处理程序分为两部分执行（即上半部和下半部函数）。上半部为中断被禁止的临界区，执行关键而紧急的任务，如把接收到的帧拷贝到输入队列，以便下半部函数执行时能进行处理。</p>
+<p><strong>中断优先级三条原则：</strong></p>
+<ol>
+<li>首先响应高优先级的中断请求。</li>
+<li>高优先级的中断请求可以打断低优先级的中断。</li>
+<li>低优先级的中断请求不可以打断高优先级及同优先级的中断。</li>
+</ol>
+<p><strong>中断号</strong>：</p>
+<p>中断号在编程时非常重要，当中断来临时，只有中断号正确才能进入中断。</p>
+<p><strong>多中断优先级的处理器</strong></p>
+<p>处理器的中断优先级别永远高于系统任务的优先级别。</p>
+<p><img src="/Picture/%E4%BB%BB%E5%8A%A1%E4%BC%98%E5%85%88%E7%BA%A7.png"></p>
+<p>ucosii中断服务程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">OSIntEnter(); <span class="comment">//通知UCOS进入中断处理</span></span><br><span class="line"><span class="comment">/*中断服务程序*/</span></span><br><span class="line">OSIntExit();  <span class="comment">//退出中断处理</span></span><br></pre></td></tr></table></figure>
+
+<p>STM32中有两个优先级的概念——抢占式优先级和响应优先级，每个中断源都需要被指定这两种优先级。</p>
+<p>具有高抢占式优先级的中断可以在具有低抢占式优先级的中断处理过程中被响应，即中断嵌套，或者说高抢占式优先级的中断可以嵌套低抢占式优先级的中断。</p>
+<p>总结：<br>（1）抢占式优先级&gt;响应优先级&gt;中断表中的排位顺序（其中“&gt;”理解为比较的方向）；<br>（2）抢占优先级数字越大，优先级越低，反之越高；<br>（3）响应优先级数字越小，优先级越低，反之越高；<br>（4）当抢占优先级相同时，输入一个中断，响应优先级高的会中断正在进行的状态来完成新的状态；</p>
+<p>抢占优先级和相应优先级的区别：</p>
+<ul>
+<li><p>高优先级的抢占优先级是可以打断正在进行的低抢占优先级中断的</p>
+</li>
+<li><p>抢占优先级相同的中断，高响应优先级不可以打断低响应优先级的中断</p>
+</li>
+<li><p>抢占优先级相同的中断，当两个中断同时发生的情况下，那个响应优先级高，哪个先执行。</p>
+</li>
+<li><p>如果两个中断的抢占优先级和响应优先级都是一样的，则看那个中断先发生就先执行</p>
+<p>特别说明：<br>一般情况下，系统代码执行过程中，只设置一次中断优先级分组，比如分组2，设置好分组之后一般不会再改变分组。随意改变分组会导致中断管理混乱，程序出现意想不到的执行结果。</p>
+</li>
+</ul>
+<p>使用库函数配置外部中断的步骤。 </p>
+<ol>
+<li>使能IO口时钟，初始化IO口为输入<br>首先，我们要使用IO口作为中断输入，所以我们要使能相应的IO口时钟，以及初始化相应的IO口为输入模式，具体的使用方法跟我们按键实验是一致的。这里就不做过多讲解。 </li>
+<li>开启SYSCFG时钟，设置IO口与中断线的映射关系。<br>接下来，我们要配置GPIO与中断线的映射关系，那么我们首先需要打开SYSCFG时钟。<br><code>RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);//使能SYSCFG时钟</code><br>一定要注意，只要我们使用到外部中断，就必须打开SYSCFG时钟。 接下来，我们配置GPIO与中断线的映射关系。在库函数中，配置GPIO与中断线的映射关系的函数<code>SYSCFG_EXTILineConfig ()</code>来实现的：<br><code>void SYSCFG_EXTILineConfig(uint8_t EXTI_PortSourceGPIOx, uint8_t EXTI_PinSourcex); </code><br>该函数将GPIO端口与中断线映射起来，使用范例是：<br><code>SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA, EXTI_PinSource0); </code></li>
+</ol>
+<ol start="3">
+<li><p>初始化线上中断，设置触发条件等。<br>中断线上中断的初始化是通过函数EXTI_Init()实现的。EXTI_Init()函数的定义是：<br>void EXTI_Init(EXTI_InitTypeDef* EXTI_InitStruct);<br>下面我们用一个使用范例来说明这个函数的使用： </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EXTI_InitTypeDef   EXTI_InitStructure; </span><br><span class="line">EXTI_InitStructure.EXTI_Line=EXTI_Line4; </span><br><span class="line">EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt;  </span><br><span class="line">EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling; </span><br><span class="line">EXTI_InitStructure.EXTI_LineCmd = ENABLE; </span><br><span class="line">EXTI_Init(&amp;EXTI_InitStructure);     <span class="comment">//初始化外设EXTI寄存器 </span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p>配置中断分组（NVIC），并使能中断。</p>
+<p><img src="/Picture/%E4%B8%AD%E6%96%AD%E4%BC%98%E5%85%88%E7%BA%A7%E5%88%86%E7%BB%84.jpg"></p>
+<blockquote>
+<p>前提条件1：组别优先顺序（第0组优先级最强，第4组优先级最弱）：NVIC_PriorityGroup_0&gt;NVIC_PriorityGroup_1&gt;NVIC_PriorityGroup_2&gt;NVIC_PriorityGroup_3&gt;NVIC_PriorityGroup_4<br>前提条件2：“组”优先级别&gt;“抢”占优先级别&gt;“副”优先级别<br>前提条件3：同一组优先级别中，不同的抢占级别之间，其中一抢占级别正在做事，另外抢占级别不能打断他；（即”同一组优先级下的中断源间，没有中断嵌套“）<br>前提条件4：不同组优先级别间，依据优先级强弱，优先级别高的组的中断源可以打断优先级别低的组的正在做的事情；（即：不同组优先级间，可以中断嵌套）</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">NVIC_Config</span><span class="params">(<span class="type">void</span>)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">    NVIC_InitTypeDef NVIC_InitStructure;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">/* Configure one bit for preemption priority -------------------------------- */</span>  </span><br><span class="line">    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);  </span><br><span class="line">      </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/* EXTI0 -------------------------------------------------------------------- */</span>  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = EXTI0_IRQChannel;  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">9</span>; <span class="comment">// 指定抢占式优先级别4，可取0-15  </span></span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0</span>;  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;  </span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure);  </span><br><span class="line">          </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/* Configure one bit for preemption priority -------------------------------- */</span>  </span><br><span class="line">    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_3);  </span><br><span class="line">    <span class="comment">/* SPI1-------------------------------------------------------------------- */</span>  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannel = SPI1_IRQChannel;  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0</span>;  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0</span>;  </span><br><span class="line">    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;  </span><br><span class="line">    NVIC_Init(&amp;NVIC_InitStructure);  </span><br><span class="line">  </span><br><span class="line">&#125;       </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写中断服务函数。 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">EXTI3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123; </span><br><span class="line">  <span class="keyword">if</span>(EXTI_GetITStatus(EXTI_Line3)!=RESET)<span class="comment">//判断某个线上的中断是否发生     </span></span><br><span class="line">  &#123;</span><br><span class="line">    EXTI_ClearITPendingBit(EXTI_Line3);    <span class="comment">//清除LINE上的中断标志位   </span></span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>在这里需要说明一下，固件库还提供了两个函数用来判断外部中断状态以及清除外部状态标志位的函数<code>EXTI_GetFlagStatus</code>和<code>EXTI_ClearFlag</code>，他们的作用和前面两个函数的作用类似。只是在EXTI_GetITStatus函数中会先判断这种中断是否使能，使能了才去判断中断标志位，而EXTI_GetFlagStatus直接用来判断状态标志位。使用IO口外部中断的一般步骤：<br>1）使能IO口时钟，初始化IO口为输入。<br>2）使能SYSCFG时钟，设置IO口与中断线的映射关系。<br>3）初始化线上中断，设置触发条件等。<br>4）配置中断分组（NVIC），并使能中断。 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">EXTI_ABInit</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">  EXTI_InitTypeDef EXTI_InitStructure;</span><br><span class="line">	NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line">	</span><br><span class="line">  RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE); <span class="comment">//enable SYSCFG</span></span><br><span class="line">	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA,EXTI_PinSource2); <span class="comment">//yingshe</span></span><br><span class="line">	SYSCFG_EXTILineConfig(EXTI_PortSourceGPIOA,EXTI_PinSource3); <span class="comment">//yingshe</span></span><br><span class="line">		</span><br><span class="line">	EXTI_InitStructure.EXTI_Line = EXTI_Line2 | EXTI_Line3;</span><br><span class="line">	EXTI_InitStructure.EXTI_LineCmd = ENABLE;</span><br><span class="line">    EXTI_InitStructure.EXTI_Mode = EXTI_Mode_Interrupt; </span><br><span class="line">    EXTI_InitStructure.EXTI_Trigger = EXTI_Trigger_Falling;  </span><br><span class="line">    EXTI_Init(&amp;EXTI_InitStructure);</span><br><span class="line">	</span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannel = EXTI2_IRQn; </span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0x02</span>; </span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0x01</span>; </span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; </span><br><span class="line">	NVIC_Init(&amp;NVIC_InitStructure); </span><br><span class="line">	</span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannel = EXTI3_IRQn; </span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = <span class="number">0x02</span>; </span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelSubPriority = <span class="number">0x02</span>; </span><br><span class="line">	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; </span><br><span class="line">	NVIC_Init(&amp;NVIC_InitStructure); </span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="type">void</span> <span class="title function_">EXTI2_IRQHandler</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123; </span><br><span class="line">	<span class="keyword">if</span>(EXTI_GetITStatus(EXTI_Line2) != RESET) </span><br><span class="line">	&#123;</span><br><span class="line">    EXTI_ClearITPendingBit(EXTI_Line2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="type">void</span> <span class="title function_">EXTI3_IRQHandler</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123; </span><br><span class="line">  <span class="keyword">if</span>(EXTI_GetITStatus(EXTI_Line3) != RESET) </span><br><span class="line">	&#123;</span><br><span class="line">     EXTI_ClearITPendingBit(EXTI_Line3);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="4-1-中断嵌套概念"><a href="#4-1-中断嵌套概念" class="headerlink" title="4.1 中断嵌套概念"></a>4.1 中断嵌套概念</h4><p>中断嵌套是指高优先级的中断能够打断低优先级的中断（反过来不可以），处理完高优先级的中断后，还得回来继续处理低优先级的中断。</p>
+<p>中断发生时，下列动作会发生：</p>
+<ul>
+<li>入栈（Stacking），即把八个寄存器的值压入堆栈；</li>
+<li>取向量（Vector fetch），即从向量表中读取中断服务函数的入口地址；</li>
+<li>更新堆栈指针（stack pointer，SP）、链接寄存器（link register）和程序计数器（Program counter，PC）。</li>
+</ul>
+<p>响应中断的第一个动作就是自动保存现场的必要部分，即把八个寄存器的值压入堆栈。如果响应中断时，当前的代码正在使用PSP，则压入PSP，也就是进程堆栈；否则就压入MSP，使用主堆栈。一旦进入中断服务函数，就将一直使用主堆栈，因而所有的嵌套中断也将使用主堆栈。</p>
+<p>嵌套中断支持已经内置于Cortex-M3内核以及嵌套向量中断控制器（Nested Vectored Interrupt Controller，NVIC），因而无需使用汇编去写贴皮代码（Wrapper Code），我们所要做的就是为每个中断设置优先级。</p>
+<p>NVIC和Cortex-M3微控制器会根据优先级来控制抢占和嵌套行为，因此，在某个中断正在响应时，所有优先级不高于它的中断都不能抢占它，包括自己也不能抢占自己（相同的中断是不允许重入的）。</p>
+<p>有了自动入栈和出栈（Unstacking），中断嵌套时，就没有了寄存器数据丢失的风险。然而，必须注意的是，由于所有的中断服务函数都使用主堆栈，当中断嵌套很深时，主堆栈的压力会增大，每嵌套一级，都需要额外的堆栈空间，因而要防止主堆栈被用穿的风险。《ARM Cortex-M3  权威指南》一书指出：堆栈用穿（溢出）是致命的，它会使入栈数据和主堆栈前面的数据区发生混迭，使这些数据被破坏；若在中断服务函数返回前混迭区的数据又被更改了，则堆栈内容被破坏，这样一来，在中断服务函数返回后，系统极可能功能紊乱，甚至造成程序跑飞。</p>
+<h4 id="4-2-操作系统如何处理中断"><a href="#4-2-操作系统如何处理中断" class="headerlink" title="4.2 操作系统如何处理中断"></a>4.2 操作系统如何处理中断</h4><p>UCOSII的中断处理过程：</p>
+<p>​	系统接收到中断请求，如果CPU处于中断状态，系统就会中止正在运行的当前任务，而按中断向量的指向去运行中断服务子程序，当中断服务子程序运行完后，系统回根据具体的情况返回到被中止的任务继续运行，或转向另一个中断优先级更高的就绪任务。</p>
+<p>​	由于UCOSII是可剥夺的内核，所以中断服务程序结束后，系统会根据实际情况进行一次任务调度，如果有优先级更高的任务，就会执行优先级更高的任务，而不一定要返回被中断的任务。</p>
+<p>UCOSII的中断过程的示意图</p>
+<p><img src="/Picture/ucosii%E4%B8%AD%E6%96%AD%E8%BF%87%E7%A8%8B.png"></p>
+<p>具体中断过程：</p>
+<ol>
+<li>中断到来，如果被CPU识别，CPU将查中断向量表，根据中断向量表，获取中断服务子程序的入口地址。</li>
+<li>将CPU寄存器的内容压入当前任务的任务堆栈中（依处理器而定，也可能压入被压入中断了的任务堆栈中）。</li>
+<li>通知操作系统将进入中断服务子程序。即，调用OSIntEnter()或OSIntNesting直接加1。</li>
+<li>lf(OSIntNesting&#x3D;&#x3D;1){OSTCBCur-&gt;OSTCBStrPtr&#x3D;SP;}&#x2F;&#x2F;如果是第一层   中断则将堆栈指针保存到被中断任务的任务控制块中</li>
+<li>清中断源否则在开中断后这类中断将反复的打入导致系统崩溃</li>
+<li>执行用户ISR</li>
+<li>中断服务完成后调用OSIntExit(如果没有高优先级的任务被中断服务子程序激活而进入就绪态那么就执行被中断了的任务，且只占用很短的时间。</li>
+<li>恢复所有CPU寄存器的值。</li>
+<li>执行中断返回指令。</li>
+</ol>
+<h3 id="五、进程通信"><a href="#五、进程通信" class="headerlink" title="五、进程通信"></a>五、进程通信</h3><h4 id="5-1-信号量"><a href="#5-1-信号量" class="headerlink" title="5.1 信号量"></a>5.1 信号量</h4><p>信号量为操作系统处理临界区问题和进程间互斥和同步提供了一种有效的机制。信号量本身不具备数据传输的功能，它只是资源的外部标识，通过该标识可以判断该资源是否可用。信号量在此过程中负责数据操作的同步功能。</p>
+<p>（1）uc&#x2F;os-ii的信号量是由两个部分组成：一部分是16位的无符号整型信号量的计数值(0~65535)；另一部分是等待该信号量的任务组成的等待任务表。（另外参考事件控制块ECB）</p>
+<p>（2）信号量可以是2值的变量（称为二值信号量），使用OSMutextCreate创建, 也可以是计数式的, 使用OSSemCreate。根据信号量的值，内核跟踪那些等待信号量的任务。<strong>二值信号量</strong>，表示任务可以独占共享资源；<strong>计数型信号量</strong>（多值信号量），用于某资源可以同时为N个任务所用；</p>
+<p>（3）建立信号量的工作必须在任务级代码中或者多任务启动之前完成。</p>
+<p>（4）任务要得到信号量的问题。</p>
+<p>想得到信号量的任务，必须执行等待操作（pend）。如果信号量有效(非0)，则信号量减1，任务得以继续运行。如果信号量无效，则等待信号量的任务就被列入等待信号量的任务表中。多少内核允许定义等待超时，当等待时间超过了设定值，该信号量还是无效，则等待该信号量的任务进入就绪态，准备运行，并返回出错代码(等待超时错误)。</p>
+<p>（5）任务对信号量的释放问题。</p>
+<p>任务执行发信号（post）操作来释放信号量。如果没有任务等待信号量，那么信号量的值仅是简单的加1（则信号量大于0，有效）；如果有任务等待该信号量，那么就会有另一个任务进入就绪态，信号量的值就不加1。</p>
+<p>之后，这个释放的信号量给那个等待中的任务，要看内核如何调度的。收到信号量的任务可能是如下两者之一：</p>
+<p>◆等待任务中，优先级最高的；（uc&#x2F;os-ii仅支持这种方式）。</p>
+<p>◆最早开始等待信号量的任务（如果是按先进先出FIFO原则）。</p>
+<p><strong>信号量常用函数</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OSSemCreate();<span class="comment">//函数用于声明和创建多值信号量</span></span><br><span class="line"></span><br><span class="line">OSSemPost();<span class="comment">//函数用于发布多值信号量</span></span><br><span class="line"></span><br><span class="line">OSSemPend();<span class="comment">//函数用于等待一个多值信号量</span></span><br><span class="line"></span><br><span class="line">OSSemAccept ();<span class="comment">//多用于中断内，未获取到信号量不会把任务挂起。</span></span><br><span class="line"></span><br><span class="line">OSSemDel ();<span class="comment">//函数用于删除一个多值信号量（必须把宏定义OS_SEM_DEL_EN打开 ）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-2-互斥信号量"><a href="#5-2-互斥信号量" class="headerlink" title="5.2 互斥信号量"></a>5.2 互斥信号量</h4><ul>
+<li>uC&#x2F;OS-III 支持一种特殊类型的二值信号量叫做mutex，用于解决优先级反转问题。优先级反正是如何通过mutex 解决的。</li>
+<li>互斥信号量只有两个值（0和1），它具有信号量的所有特性。</li>
+<li>互斥信号量主要是为了解决信号量出现的优先级反转的情况：任务的运行取决于优先级和获得信号量2个条件，并且获得信号量又优先于设定的优先级。剥夺性内核对信号量进行独占访问，就有可能出现先获得信号量的低优先级任务在独占信号量过程中被高优先级任务剥夺CPU控制权而挂起，不能及时释放信号量，而高优先级任务又需要该信号量从而出现优先级反转。</li>
+</ul>
+<p>解决的办法：引入互斥信号量，在任务获得共享信号量过程中提升置最高优先级不被打断（通过将信号量计数器分成高8位作为提升优先级，低8位作为占用标志0XFF表明未占用），从而使低优先级任务及时释放共享信号量。其它与信号量相同。</p>
+<p>一、创建互斥信号量： OS_EVENT *OSMutexCreat(INT8U prio，INT8U  &amp;err)&#x2F;&#x2F;从任务链表中取得一个任务控制块赋值类型为OS_Event_TYPE_MUXTEX,然后给任务计数器的高8位赋值优先级，第八位赋值0XFF表明未被占用。</p>
+<p>二、申请互斥信号量：void OSMutexPend(OS_EVENT *P, INT16U timeout,INT8U &amp;err)&#x2F;&#x2F;访问任务计数器若为0xff则获得运行权，否则进入等待列表，timeout用于指定等待时间。</p>
+<p>OSMutexAccept(OS_EVENT *P,INT8U &amp;err)&#x2F;&#x2F;无等待的请求一个信号量。</p>
+<p>三、发送（释放）互斥信号量：INT8U OSMutexPost(OS_EVENT *P)</p>
+<p>四、获得互斥型信号量的当前状态：INT8U OSMutexQuery(OS_EVENT *P,OS_MUTEX_DATA *pdata)&#x2F;&#x2F;需事先定义一个存储互斥型信号量状态的变量。</p>
+<p>五、删除互斥型信号量：OS_EVENT *OSMutexDel(OS_EVENT *P, INT8U opt,INT8U &amp;err)&#x2F;&#x2F;opt为删除的选择项：立即删除、等待无任务等待时再删除。</p>
+<p><strong>常用函数：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OSMutexCreate();<span class="comment">//函数用于创建多值信号量</span></span><br><span class="line"></span><br><span class="line">OSMutexPost();<span class="comment">//函数用于发布互斥信号量</span></span><br><span class="line"></span><br><span class="line">OSMutexPend();<span class="comment">//函数用于等待互斥信号量</span></span><br><span class="line"></span><br><span class="line">OSMutexAccept();<span class="comment">//未获取到互斥信号量不会把任务挂起</span></span><br><span class="line"></span><br><span class="line">OSMutexDel();<span class="comment">//函数用于删除互斥信号量（必须把宏定义OS_MUTEX_DEL_EN打开 ）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-3-邮箱"><a href="#5-3-邮箱" class="headerlink" title="5.3 邮箱"></a>5.3 邮箱</h4><p>邮箱和消息队列是uCOS-II中任务间的<strong>通讯机制</strong>，它可以使一个任务或者中断服务子程序向另一个任务发送以指针方式定义的变量。因具体的应用有所不同，每个指针指向的数据结构变量也有所不同。两者都基于事件控制块OS_EVENT。与邮箱相比，消息队列在OS_EVENT基础上加了个循环队列，可以存放多个消息，而邮箱只能存放一个消息。消息队列可以看成是多个邮箱的组合。因此，两者除了创建时有些差别外，其他的操作都很相似。</p>
+<p>在事件控制块OS_EVENT中有一个域OSEventPtr，这个域是一个用来存放消息的指针。由于邮箱是由操作系统维护的，因此使用指针可以避免消息的复制，提供操作系统效率。uCOS-II中对邮箱有五种操作：OSMboxCreate()，OSMboxPend() ， OSMboxPost()，OSMboxAccept()和OSMboxQuery()。其中OSMboxAccept()是无等待的接受一个消息。在创建一个邮箱时，一般初始化为空邮箱，但是也可以让邮箱一开始就包含一条消息。如果该邮箱用于通知某个事件的发   生，那么就应该初始化为空邮箱；如果用于共享某些资源，那么就应该让其包含一条消息。</p>
+<table>
+<thead>
+<tr>
+<th align="center">所属文件</th>
+<th align="center">调用者</th>
+<th align="center">开关量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">OS_MBOX.C</td>
+<td align="center">任务或启动代码</td>
+<td align="center">OS_MBOX_EN</td>
+</tr>
+</tbody></table>
+<p>OSMboxCreate（）建立并初始化一个消息邮箱。消息邮箱允许任务或中断向其他一个或几个任务发送消息。</p>
+<p>代码范例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">OS_EVENT *CommMbox;</span><br><span class="line"><span class="type">void</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    OSInit(); <span class="comment">/* 初始化μC/OS-Ⅱ */</span></span><br><span class="line"></span><br><span class="line">    CommMbox = OSMboxCreate((<span class="type">void</span> *)<span class="number">0</span>); <span class="comment">/* 建立消息邮箱 */</span></span><br><span class="line">    OSStart(); <span class="comment">/* 启动多任务内核 */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>常用函数：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OSMboxCreate();<span class="comment">//函数用于建立并初始化一个消息邮箱</span></span><br><span class="line"></span><br><span class="line">OSMboxPost();<span class="comment">//函数用于发布一个消息</span></span><br><span class="line"></span><br><span class="line">OSMboxPend();<span class="comment">//函数用于用于等待消息</span></span><br><span class="line"></span><br><span class="line">OSMboxAccept();<span class="comment">//未等待到消息不会把任务挂起</span></span><br><span class="line"></span><br><span class="line">OSMboxDel();<span class="comment">//函数用于删除一个消息邮箱（必须把宏定义OS_MBOX_DEL_EN打开）</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="5-4-队列"><a href="#5-4-队列" class="headerlink" title="5.4 队列"></a>5.4 队列</h4><p>任务消息队列跟任务信号量一样，均隶属于某一个特定任务，不需单独创建，任务在则任务消息队列在，只有该任务才可以获取（接收）这个任务消息队列的消息，其他任务只能给这个任务消息队列发送消息，却不能获取<br>任务内建消息队列，<strong>达到消息的一对一发送接收</strong></p>
+<p>任务消息队列发送-&gt;OSTaskQPost()</p>
+<p><strong>注意:想要使用任务消息队列，就必须将OS_ CFG_ TASK_ Q EN宏定义配置为1，该宏定义位于os_cfg.h 文件中。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> OS_CFG_TASK_Q_EN &gt; 0u					<span class="comment">//如果使能了任务消息队列</span></span></span><br><span class="line"><span class="type">void</span>  <span class="title function_">OSTaskQPost</span> <span class="params">(OS_TCB       *p_tcb,		<span class="comment">//目标任务</span></span></span><br><span class="line"><span class="params">                   <span class="type">void</span>         *p_void,	<span class="comment">//消息内容地址</span></span></span><br><span class="line"><span class="params">                   OS_MSG_SIZE   msg_size,	<span class="comment">//消息长度</span></span></span><br><span class="line"><span class="params">                   OS_OPT        opt,		<span class="comment">//选项</span></span></span><br><span class="line"><span class="params">                   OS_ERR       *p_err)</span>		<span class="comment">//返回错误类型</span></span><br></pre></td></tr></table></figure>
+
+<p>消息内容<br>要发送的数据的指针，将内存块首地址通过队列“发送出去”，可以是”字符串”也可以是数组，在接受消息队列的时候可以通过<strong>指针</strong>取出具体消息。</p>
+<p>应用实例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OS_ERR err;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 发布消息到任务 AppTaskPend */</span></span><br><span class="line">OSTaskQPost ((OS_TCB *)&amp;AppTaskPendTCB, <span class="comment">//目标任务的控制块</span></span><br><span class="line">			(<span class="type">void</span> *)<span class="string">&quot;YeHuo uCOS-III&quot;</span>, <span class="comment">//消息内容</span></span><br><span class="line">			(OS_MSG_SIZE )<span class="keyword">sizeof</span> ( <span class="string">&quot;YeHuo uCOS-III&quot;</span> ), <span class="comment">//消息长度</span></span><br><span class="line">			(OS_OPT )OS_OPT_POST_FIFO,</span><br><span class="line">			<span class="comment">//发布到任务消息队列的入口端</span></span><br><span class="line">			(OS_ERR *)&amp;err); <span class="comment">//返回错误类型</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>队列常用函数：</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">OSQCreate();<span class="comment">//函数用于声明和创建消息队列</span></span><br><span class="line"></span><br><span class="line">OSQPost();<span class="comment">//函数用于向消息队列发布一个消息</span></span><br><span class="line"></span><br><span class="line">OSQPend();<span class="comment">//函数用于等待获取消息队列的消息</span></span><br><span class="line"></span><br><span class="line">OSQDel();<span class="comment">//函数用于删除一个消息队列 （必须把宏定义OS_Q_DEL_EN打开）</span></span><br><span class="line"></span><br><span class="line">OSQFlush();<span class="comment">//函数用于清空一个消息队列（必须把宏定义OS_Q_FLUSH_EN打开）</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="六、内存管理"><a href="#六、内存管理" class="headerlink" title="六、内存管理"></a>六、内存管理</h3><p>作为一个RTOS操作系统，内存管理是必备的功能，因此UCOSIII也就内存管理能力。通常应用程序可以调用ANSI C编译器的malloc()和free()函数来动态的分配和释放内存，但是在嵌入式事实操作系统中最好不要这么做，多次这样的操作会把原来很大的一块连续存储区域逐渐地分割成许多非常小并且彼  此不相邻的存储区域，这就是存储碎片。存储碎片最终导致的结果就是，应用不能申请到大小合适的连续内存。</p>
+<p>UCOSII中提供了一种替代malloc()和free()函数的方法，它提供了自己的动态内存方案。UCOSII将存储空间分成区和块，一个存储区有数个固定大小的块组成，如下图所示：</p>
+<p><img src="/Picture/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.png"></p>
+<p>一般存储区是固定的，在程序中可以用数组来表示一个存储区，比如u8 buffer[ 20 ][ 10 ]就表示一个有20个存储块，每个存储块10字节的存储区。如果我们定义的存储区在程序运行期间都不会被删除掉，一直有效，那么存储区内存也可以使用malloc()来分配。在创建存储区以后应用程序就可以获得固定大小的存储块。</p>
+<p>实际使用中我们可以根据应用程序对内存需求的不同建立多个存储区，每个存储区中有不同大小、不同数量的存储块，应用程序可以根据所需内存不同从不同的存储区中申请内存使用，使用完以后在释放到相应的存储区中。</p>
+<h2 id="嵌入式平台"><a href="#嵌入式平台" class="headerlink" title="嵌入式平台"></a>嵌入式平台</h2><h3 id="七、GPIO的驱动"><a href="#七、GPIO的驱动" class="headerlink" title="七、GPIO的驱动"></a>七、GPIO的驱动</h3><ol>
+<li><p><strong>GPIO定义</strong>：GPIO的英文全称是General-Purpose IO ports，也就是通用输入输出口。</p>
+<p>一个GPIO端口至少需要两个寄存器，一个做控制用的“通用IO端口控制寄存器”，还有一个是存放数据的“通用I&#x2F;O端口数据寄存器”。数据寄存器的每一位是和GPIO的硬件引脚对应的，而数据的传递方向是通过控制寄存器设置的，通过控制寄存器可以设置每一位引脚的数据流向。</p>
+</li>
+<li><p><strong>STM32中关于GPIO口的介绍</strong>：在STM32中每个GPI&#x2F;O端口有两个32位配置寄存器(GPIOx_CRL，GPIOx_CRH)，两个32位数据寄存器(GPIOx_IDR和GPIOx_ODR)，一个32位置位&#x2F;复位寄存器(GPIOx_BSRR)，一个16位复位寄存器(GPIOx_BRR)和一个32位锁定寄存器(GPIOx_LCKR)。</p>
+</li>
+<li><p>GPIO端口模式：由软件分成配置成多种模式</p>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GPIO_Mode_AIN <span class="comment">//模拟输入</span></span><br><span class="line">GPIO_Mode_IN_FLOAtiNG <span class="comment">//浮空输入</span></span><br><span class="line">GPIO_Mode_IPD <span class="comment">//下拉输入</span></span><br><span class="line">GPIO_Mode_IPU <span class="comment">//上拉输入</span></span><br><span class="line">GPIO_Mode_Out_OD<span class="comment">//开漏输出</span></span><br><span class="line">GPIO_Mode_Out_PP <span class="comment">//推挽输出</span></span><br><span class="line">GPIO_Mode_AF_OD <span class="comment">//复用开漏输出</span></span><br><span class="line">GPIO_Mode_AF_PP <span class="comment">//复用推挽输出</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>GPIO模式模式总结：</strong></p>
+<h4 id="7-1-推挽输出"><a href="#7-1-推挽输出" class="headerlink" title="7.1 推挽输出"></a>7.1 推挽输出</h4><p>作用:当设置输出为高电平时，端口输出高电平。当设置输出为低电平时，端口输出低电平。当输出低电平以后，端口可以进行输入。</p>
+<p>输出0为低电平，输出1为内部电源电平（3.3V）；</p>
+<blockquote>
+<p>原理：当设置输出为高电平的时候，<code>P-MOS</code>管处于开启状态，<code>N-MOS</code>管处于关闭状态，此时<code>I/O</code>端口的高电平由<code>P-MOS</code>管的<code>VDD</code>决定；当设置输出的值为低电平的时候，<code>N-MOS</code>管处于开启状态，<code>P-MOS</code>管处于关闭状态，此时<code>I/O</code>端口的电平就是低电平。</p>
+</blockquote>
+<ul>
+<li><p>可以输出高，低电平，连接数字器件;推挽结构一般是指两个三级管分别受到互补信号的控制，总是在一个三极管导通的时候另一个截止。高低电平由IC的电源低定。</p>
+</li>
+<li><p>推挽电路是两个参数相同的三极管或MOSFET，以推挽方式存在于电路中，各负责正负半周的波形方法任务，电路工作时，两只对称的功率开关管每次只有一个导通，所以导通损耗小，效率高。输出即可以向负载灌电流。推拉式输出级即提高电路的负载能力，又提高开关速度<br><img src="/Picture/%E6%8E%A8%E6%8C%BD%E8%BE%93%E5%87%BA.png"></p>
+</li>
+</ul>
+<h4 id="7-2-推挽式复用功能"><a href="#7-2-推挽式复用功能" class="headerlink" title="7.2 推挽式复用功能"></a>7.2 推挽式复用功能</h4><p>作用：当外设输出为高电平时，端口输出高电平。当外设输出为低电平时，端口输出低电平。当输出低电平以后，端口可以进行输入。</p>
+<blockquote>
+<p>原理：与推挽输出相同，只不过由外设控制高低电平。</p>
+</blockquote>
+<p>可以理解为GPIO口被用作第二功能时的配置情况（并非作为通用IO口使用）</p>
+<p><img src="/Picture/%E5%A4%8D%E7%94%A8%E6%8E%A8%E6%8C%BD.png"></p>
+<h4 id="7-3-开漏输出"><a href="#7-3-开漏输出" class="headerlink" title="7.3 开漏输出"></a>7.3 开漏输出</h4><p>作用：当设置输出为高电平时，端口输出高低电平由端口外的上拉或下拉决定。当设置输出为低电平时，端口输出低电平。当输出低电平以后，端口可以进行输入。输出0为低电平，输出1为高阻态，电平由外部电路决定，可以读出引脚状态；</p>
+<blockquote>
+<p>原理:当设置输出为高电平的时候，N-MOS管处于关闭状态，此时I&#x2F;O端口的电平就不会由输出的高低电平决定，而是由I&#x2F;O端口外部的上拉或者下拉决定；当设置输出的值为低电平的时候，N-MOS管处于开启状态，此时I&#x2F;O端口的电平就是低电平。同时，I&#x2F;O端口的电平也可以通过输入电路进行读取；注意，I&#x2F;O端口的电平不一定是输出的电平，电平由上拉电阻控制。</p>
+</blockquote>
+<p>输出端相当于三极管的集电极，要得到高电平状态需要上拉电阻才行，适合于做电流型的驱动，其吸收电流的能力相对强（一般20mA以内）</p>
+<ol>
+<li><p>利用外部电路的驱动能力，减少IC内部的驱动。当IC内部MOSFET导通时，驱动电流是从外部的VCC流经R pull-up ，MOSFET到GND。IC内部仅需很下的栅极驱动电流。</p>
+</li>
+<li><p>一般来说，开漏是用来连接不同电平的器件，匹配电平用的，因为开漏引脚不连接外部的上拉电阻时，只能输出低电平，如果需要同时具备输出高电平的功能，则需要接上拉电阻，很好的一个优点是通过改变上拉电源的电压，便可以改变传输电平。比如加上上拉电阻就可以提供TTL&#x2F;CMOS电平输出等。(上拉电阻的阻 决定了逻辑电平转换的沿的速度 。阻 越大，速度越低功耗越小，所以负载电阻的选择要兼顾功耗和速度。)</p>
+</li>
+<li><p>OPEN-DRAIN提供了灵活的输出方式，但是也有其弱点，就是带来上升沿的延时。因为上升沿是通过外接上拉无源电阻对负载充电，所以当电阻选择小时延时就小，但功耗大;反之延时大功耗小。所以如果对延时有要求，则建议用下降沿输出。</p>
+</li>
+<li><p>可以将多个开漏输出的Pin，连接到一条线上。通过一只上拉电阻，在不增加任何器件的情况下，形成“与逻辑”关系。这也是I2C，SMBus等总线判断总线占用状态的原理。补充:什么是“线与”?:</p>
+</li>
+</ol>
+<p>在一个结点(线)上, 连接一个上拉电阻到电源 VCC 或 VDD 和 n 个 NPN 或 NMOS 晶体管的集电极 C 或漏极 D, 这些晶体管的发射极 E 或源极 S 都接到地线上, 只要有一个晶体管饱和, 这个结点(线)就被拉到地线电平上. 因为这些晶体管的基极注入电流(NPN)或栅极加上高电平(NMOS),晶体管就会饱和, 所以这些基极或栅极对这个结点(线)的关系是或非 NOR 逻辑. 如果这个结点后面加一个反相器, 就是或 OR 逻辑.</p>
+<p><img src="/Picture/%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA.png"></p>
+<h4 id="7-4-开漏复用功能"><a href="#7-4-开漏复用功能" class="headerlink" title="7.4 开漏复用功能"></a>7.4 开漏复用功能</h4><p>作用：当外设输出为高电平时，端口输出高低电平由端口外的上拉或下拉决定。当外设输出为低电平时，端口输出低电平。当输出低电平以后，端口可以进行输入。</p>
+<blockquote>
+<p>原理：与开漏输出相同，只不过由外设控制高低电平。</p>
+</blockquote>
+<p>可以理解为GPIO口被用作第二功能时的配置情况（即并非作为通用IO口使用）。端口必须配置成复用功能输出模式（推挽或开漏）</p>
+<p><img src="/Picture/%E5%A4%8D%E7%94%A8%E5%BC%80%E6%BC%8F.png"></p>
+<h4 id="7-5-模拟输入"><a href="#7-5-模拟输入" class="headerlink" title="7.5 模拟输入"></a>7.5 模拟输入</h4><p>作用：将不会检测到电平信息，会检测到完整的电压变化。</p>
+<blockquote>
+<p>模拟输入模式下，I&#x2F;O端口的模拟信号（电压信号，而非电平信号）直接模拟输入到<strong>外设模块</strong>，比如ADC模块等等</p>
+</blockquote>
+<p>模拟输入是指传统方式的输入，数字输入是输入PCM数字信号，即0,1的二进制数字信号，通过数模转换，转换成模拟信号，经前级放大进入功率放大器，功率放大器还是模拟的。</p>
+<p><img src="/Picture/%E6%A8%A1%E6%8B%9F%E8%BE%93%E5%85%A5.png"></p>
+<h4 id="7-6-输入浮空"><a href="#7-6-输入浮空" class="headerlink" title="7.6 输入浮空"></a>7.6 输入浮空</h4><p>作用：当输入一个高电平时，会检测到高电平；当输入低电平时，会检测到低电平；当无信号输入时，该端口的电平是不确定的。</p>
+<blockquote>
+<p>原理：浮空输入模式下，I&#x2F;O端口的电平信号直接进入<strong>输入数据寄存器</strong>。当引脚悬空（在无信号输入）的情况下，I&#x2F;O的电平状态是不确定的，会因为各种各样的情况受到干扰。</p>
+</blockquote>
+<p>浮空就是逻辑器件与引脚即不接高电平，也不接低电平。由于逻辑器件的内部结构，当它输入引脚悬空时，</p>
+<p>相当于该引脚接了高电平。一般实际运用时，引脚不建议悬空，易受干扰。通俗讲就是浮空就是浮在空中，就相当于此端口在默认情况下什么都不接，呈高阻态，这种设置在数据传输时用的比较多。浮空最大的特点就是电压的不确定性，它可能是0V，页可能是VCC，还可能是介于两者之间的某个值（最有可能） 浮空一般用来做ADC输入用，这样可以减少上下拉电阻对结果的影响<br><img src="/Picture/%E6%B5%AE%E7%A9%BA%E8%BE%93%E5%85%A5.png"></p>
+<h4 id="7-8-输入上拉"><a href="#7-8-输入上拉" class="headerlink" title="7.8 输入上拉"></a>7.8 输入上拉</h4><p>作用：当输入一个高电平时，会检测到高电平；当输入低电平时，会检测到低电平；当无信号输入时，该端口的电平是不确定的。</p>
+<p>但当外部电平不确定时，会被拉至高电平；</p>
+<blockquote>
+<p>原理：上拉输入模式下，I&#x2F;O端口的电平信号直接进入<strong>输入数据寄存器</strong>。当输入一个高电平时，<code>VDD</code>不产生影响；当输入低电平时，上拉电阻压降为<code>VDD</code>，<code>VDD</code>不产生影响；当无信号输入时，由于上拉电阻电流很小，所以降压很低，故会检测到高电平。</p>
+</blockquote>
+<p>上拉就是把点位拉高，比如拉到Vcc。上拉就是将不确定的信号通过一个电阻嵌位在高电平。电阻同时起到限流的作用。弱强只是上拉电阻的阻值不同，没有什么严格区分</p>
+<p><img src="/Picture/%E8%BE%93%E5%85%A5%E4%B8%8A%E6%8B%89.png"></p>
+<h4 id="7-9-输入下拉"><a href="#7-9-输入下拉" class="headerlink" title="7.9 输入下拉"></a>7.9 输入下拉</h4><p>作用：当输入一个高电平时，会检测到高电平；当输入低电平时，会检测到低电平；当无信号输入时，会检测到低电平。</p>
+<p>与浮空输入类似，但当外部电平不确定时，会被拉至低电平；</p>
+<blockquote>
+<p>原理：下拉输入模式下，I&#x2F;O端口的电平信号直接进入<strong>输入数据寄存器</strong>。当输入一个高电平时，下拉电阻电流很小，<code>VSS</code>不产生影响；当输入低电平时，<code>VSS</code>不产生影响；当无信号输入时，下拉电阻两端皆为低电平，故会检测到低电平。</p>
+</blockquote>
+<p>就是把电压拉低，拉到GND。与上拉原理相似</p>
+<p><img src="/Picture/%E8%BE%93%E5%85%A5%E4%B8%8B%E6%8B%89.png"></p>
+<h3 id="八、定时器的驱动"><a href="#八、定时器的驱动" class="headerlink" title="八、定时器的驱动"></a>八、定时器的驱动</h3><h4 id="8-1-STM32定时器简述"><a href="#8-1-STM32定时器简述" class="headerlink" title="8.1 STM32定时器简述"></a>8.1 STM32定时器简述</h4><p>STM32系列中，除了互联型的产品，共有 8 个定时器，分为基本定时器，通用定时器和高级定时器。基本定时器 TIM6 和 TIM7 是一个 16 位的只能向上计数的定时器，只能定时，没有外部 IO。通用定时器 TI2&#x2F;3&#x2F;4&#x2F;5 是一个 16 位的可以向上&#x2F;向下计数的定时器，可以定时，可以输出比较，可以输入捕获，每个定时器有四个外部 IO。高级定时器 TIM1&#x2F;8 是一个 16 位的可以向上&#x2F;向下计数的定时器，可以定时，可以输出比较，可以输入捕获，还可以由三相电机互补输出信号，每个定时器有 8 个外部 IO。</p>
+<p><img src="/Picture/%E5%AE%9A%E6%97%B6%E5%99%A8%E8%A1%A8.png" alt=" "></p>
+<p>STM32 的定时器非常强大，功能也异常丰富，但是我们平时用到的无外乎三种：</p>
+<p>1、 一个是定时器溢出中断用于执行定时任务，比如每隔固定时间采集一次传感器数据。</p>
+<p>2、 第二个是输入捕获，它可以获取外部输入信号的高低电平时间，进而计算出该波形的周期（相邻下降沿或者相邻上升沿的间隔）和占空比（相邻上升沿和下降沿或者相邻下降沿和上升沿时间）</p>
+<p>3、 第三个就是通过输出比较产生 PWM。PWM 应用非常广泛，比如调节灯光亮度，调节电机转速等</p>
+<p><img src="/Picture/%E5%AE%9A%E6%97%B6%E5%99%A8%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.png"></p>
+<p><strong>1.时钟源</strong></p>
+<p>这是任何一个定时器的基础部件，要计数就要有时钟，时钟来源根据单片机而异，我们使用的 STM32 的时钟源有四种：</p>
+<ul>
+<li><p>内部时钟（CK_INT） </p>
+</li>
+<li><p>外部时钟模式 1：外部输入脚（TIx） </p>
+</li>
+<li><p>外部时钟模式 2：外部触发输入（ETR） </p>
+</li>
+<li><p>内部触发输入（ITRx）：使用一个定时器作为另一个定时器的预分频器，如可以配置一个定时器 Timer1 作为另一个定时器 Timer2的预分频器</p>
+</li>
+</ul>
+<p><img src="/Picture/%E5%86%85%E9%83%A8%E6%97%B6%E9%92%9F%E6%BA%90.png"></p>
+<p>STM32的常见的定时器资源： 系统嘀嗒定时器SysTick、看门狗定时器WatchDog、实时时钟RTC、基本定时器、通用定时器、高级定时器。<br> 　系统嘀嗒定时器SysTick ：这是一个集成在Cortex M3内核当中的定时器，它并不属于芯片厂商的外设，也就是说使用ARM内核的不同厂商，都拥有基本结构相同的系统定时器。主要目的是给RTOS提供时钟节拍做时间基准。<br> 　基本定时器：TIM6、TIM7。<br> 　通用定时器：TIM2、TIM3、TIM4、TIM5。在基本定时器的基础上，实现输出比较、输入捕获、PWM生成、单脉冲模式输出等功能。这类定时器最具代表性，使用也最广泛。<br> 　高级定时器：TIM1、TIM8。</p>
+<p><strong>2.时钟树系统框图</strong></p>
+<p><img src="/Picture/%E6%97%B6%E9%92%9F%E6%A0%91.png"></p>
+<blockquote>
+<p>几个重要的时钟:<br>SYSCLK(系统时钟) AHB总线时钟<br>APB1总线时钟(低速)速度最高36MHZ APB2总线时钟(高速)速度最高72MHz PLL时钟</p>
+</blockquote>
+<p><strong>3.时钟源</strong></p>
+<p>1.STM32有5个时钟源:HSI、HSE、LSI、LSE、PLL。<br>①、HSI是高速内部时钟，RC振荡器，频率为8MHz，精度不高。</p>
+<p>②、 HSE是高速外部时钟，可接石英&#x2F;陶瓷谐振器，或者接外部时钟源，频率范围为4MHz~16MHz。</p>
+<p>③、LSI是低速内部时钟，RC振荡器，频率为40kHz，提供低功耗时钟。WDG</p>
+<p>④、LSE是低速外部时钟，接频率为32768kHz的石英晶体。RTC</p>
+<p>⑤、PLL为锁相环倍频输出，其时钟输入源可选择为HS1&#x2F;2、HSE或者HSE&#x2F;2倍频可选择为2~16倍，但是其输出频率最大不得超过72MHZ。<br>2.系统时钟SYSCLK可来源于三个时钟源:<br>①、HSI振荡器时钟</p>
+<p>②、HSE振荡器时钟</p>
+<p>③、PLL时钟<br>3.STM32可以选择一个时钟信号输出到MCO脚(PA8)上，可以选择为PLL输出的2分频、HSI、HSE、或者系统时钟。<br>4.任何一个外设在使用之前，必须首先使能其相应的时钟。</p>
+<h4 id="8-1-STM32通用定时器的重要知识点"><a href="#8-1-STM32通用定时器的重要知识点" class="headerlink" title="8.1 STM32通用定时器的重要知识点"></a>8.1 STM32通用定时器的重要知识点</h4><p> 　通用定时器的基本结构组成：<br> 　STM32的通用定时器，是一个通过可编程预分频器（Prescaler）驱动的16位自动重装主计数器（Counter Period）构成。可以对内部时钟或触发源以及外部时钟或触发源进行计数。<br> 　通用定时器的基本工作原理：<br> 　首先，定时器时钟信号送入16位可编程预分配器（Prescaler），该预分配器系数为0～65535之间的任意数值。预分配器溢出后，会向16位的主计数器（Counter Period）发出一个脉冲信号预分频器，本质上是一个加法计数器，预分频系数实际上就是加计数的溢出值。<br> 　定时器发生中断时间的计算方法：<br> 　定时时间 &#x3D; （Prescaler+1 ） X （Counter Period+1） X 1&#x2F; 定时器时钟频率</p>
+<h4 id="8-3-SysTick（系统滴答定时器）概述"><a href="#8-3-SysTick（系统滴答定时器）概述" class="headerlink" title="8.3 SysTick（系统滴答定时器）概述"></a>8.3 SysTick（系统滴答定时器）概述</h4><p>​		操作系统需要一个滴答定时器周期性产生中断，以产生系统运行的节拍。在中断服务程序里，基于优先级调度的操作系统会根据进程优先级切换任务，基于时间片轮转系统会根据时间片切换任务。总之，滴答定时器是一个操作系统的“心跳”。</p>
+<p>　　Cortex-M3在内核部分封装了一个滴答定时器–SysTick，在之前的ARM内核通常是不会把定时器做进内核，定时器都是SOC厂商自己制作的外设。显然，Cortex-M3封装了这么一个定时器，对于将操作系统移植到不同SOC厂商生产的Cortex-M3系类MCU上，带来了极大的方便。Cortex-M3内核统一了这样的一个系统滴答定时器，移植操作系统的时候可以使用内核的定时器，而忽略掉不同厂商生产定时器带来的分歧。</p>
+<p>滴答定时器驱动：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> u8  fac_us=<span class="number">0</span>;							<span class="comment">//us延时倍乘数			   </span></span><br><span class="line"><span class="type">static</span> u16 fac_ms=<span class="number">0</span>;							<span class="comment">//ms延时倍乘数,在os下,代表每个节拍的ms数</span></span><br><span class="line">	</span><br><span class="line">			</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> delay_osrunning		OSRunning			<span class="comment">//OS是否运行标记,0,不运行;1,在运行</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> delay_ostickspersec	OS_TICKS_PER_SEC	<span class="comment">//OS时钟节拍,即每秒调度次数</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> delay_osintnesting 	OSIntNesting		<span class="comment">//中断嵌套级别,即中断嵌套次数</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//systick中断服务函数,使用OS时用到</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SysTick_Handler</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;	</span><br><span class="line">	<span class="keyword">if</span>(delay_osrunning==<span class="number">1</span>)					<span class="comment">//OS开始跑了,才执行正常的调度处理</span></span><br><span class="line">	&#123;</span><br><span class="line">		OSIntEnter();						<span class="comment">//进入中断</span></span><br><span class="line">		OSTimeTick();       				<span class="comment">//调用ucos的时钟服务程序               </span></span><br><span class="line">		OSIntExit();       	 				<span class="comment">//触发任务切换软中断</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">			   </span><br><span class="line"><span class="comment">//初始化延迟函数</span></span><br><span class="line"><span class="comment">//当使用ucos的时候,此函数会初始化ucos的时钟节拍</span></span><br><span class="line"><span class="comment">//SYSTICK的时钟固定为AHB时钟的1/8</span></span><br><span class="line"><span class="comment">//SYSCLK:系统时钟频率</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">delay_init</span><span class="params">(u8 SYSCLK)</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	u32 reload;</span><br><span class="line"></span><br><span class="line"> 	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK_Div8);<span class="comment">//SYSTICK使用外部时钟源	 </span></span><br><span class="line">	fac_us=SYSCLK/<span class="number">8</span>;						<span class="comment">//不论是否使用OS,fac_us都需要使用</span></span><br><span class="line"></span><br><span class="line">	reload=SYSCLK/<span class="number">8</span>;						<span class="comment">//每秒钟的计数次数 单位为K	   </span></span><br><span class="line">	reload*=<span class="number">1000000</span>/delay_ostickspersec;	<span class="comment">//根据delay_ostickspersec设定溢出时间</span></span><br><span class="line">											<span class="comment">//reload为24位寄存器,最大值:16777216,在72M下,约合1.86s左右	</span></span><br><span class="line">	fac_ms=<span class="number">1000</span>/delay_ostickspersec;		<span class="comment">//代表OS可以延时的最少单位	   </span></span><br><span class="line">	SysTick-&gt;CTRL|=SysTick_CTRL_TICKINT_Msk;<span class="comment">//开启SYSTICK中断</span></span><br><span class="line">	SysTick-&gt;LOAD=reload; 					<span class="comment">//每1/OS_TICKS_PER_SEC秒中断一次	</span></span><br><span class="line">	SysTick-&gt;CTRL|=SysTick_CTRL_ENABLE_Msk; <span class="comment">//开启SYSTICK</span></span><br><span class="line"></span><br><span class="line">&#125;								    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//延时nus</span></span><br><span class="line"><span class="comment">//nus:要延时的us数.	</span></span><br><span class="line"><span class="comment">//nus:0~204522252(最大值即2^32/fac_us@fac_us=21)	    								   </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">delay_us</span><span class="params">(u32 nus)</span></span><br><span class="line">&#123;		</span><br><span class="line">	u32 ticks;</span><br><span class="line">	u32 told,tnow,tcnt=<span class="number">0</span>;</span><br><span class="line">	u32 reload=SysTick-&gt;LOAD;				<span class="comment">//LOAD的值	    	 </span></span><br><span class="line">	ticks=nus*fac_us; 						<span class="comment">//需要的节拍数 </span></span><br><span class="line">	OSSchedLock();						<span class="comment">//阻止OS调度，防止打断us延时</span></span><br><span class="line">	told=SysTick-&gt;VAL;        				<span class="comment">//刚进入时的计数器值</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		tnow=SysTick-&gt;VAL;	</span><br><span class="line">		<span class="keyword">if</span>(tnow!=told)</span><br><span class="line">		&#123;	    </span><br><span class="line">			<span class="keyword">if</span>(tnow&lt;told)tcnt+=told-tnow;	<span class="comment">//这里注意一下SYSTICK是一个递减的计数器就可以了.</span></span><br><span class="line">			<span class="keyword">else</span> tcnt+=reload-tnow+told;	    </span><br><span class="line">			told=tnow;</span><br><span class="line">			<span class="keyword">if</span>(tcnt&gt;=ticks)<span class="keyword">break</span>;			<span class="comment">//时间超过/等于要延迟的时间,则退出.</span></span><br><span class="line">		&#125;  </span><br><span class="line">	&#125;;</span><br><span class="line">	OSSchedUnlock();					<span class="comment">//恢复OS调度											    </span></span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//延时nms</span></span><br><span class="line"><span class="comment">//nms:要延时的ms数</span></span><br><span class="line"><span class="comment">//nms:0~65535</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">delay_ms</span><span class="params">(u16 nms)</span></span><br><span class="line">&#123;	</span><br><span class="line">	<span class="keyword">if</span>(delay_osrunning&amp;&amp;delay_osintnesting==<span class="number">0</span>)<span class="comment">//如果OS已经在跑了,并且不是在中断里面(中断里面不能任务调度)	    </span></span><br><span class="line">	&#123;		 </span><br><span class="line">		<span class="keyword">if</span>(nms&gt;=fac_ms)						<span class="comment">//延时的时间大于OS的最少时间周期 </span></span><br><span class="line">		&#123; </span><br><span class="line">   			OSTimeDly(nms/fac_ms);	                        <span class="comment">//OS延时</span></span><br><span class="line">		&#125;</span><br><span class="line">		nms%=fac_ms;						<span class="comment">//OS已经无法提供这么小的延时了,采用普通方式延时    </span></span><br><span class="line">	&#125;</span><br><span class="line">	delay_us((u32)(nms*<span class="number">1000</span>));				<span class="comment">//普通方式延时</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="ucos移植"><a href="#ucos移植" class="headerlink" title="ucos移植"></a>ucos移植</h2><h3 id="九、ucos的移植"><a href="#九、ucos的移植" class="headerlink" title="九、ucos的移植"></a>九、ucos的移植</h3><ol>
+<li>首先将标准库（hal库）移植好。</li>
+</ol>
+<p><img src="/Picture/%E6%A0%87%E5%87%86%E5%BA%93%E7%A7%BB%E6%A4%8D.png"></p>
+<ol start="2">
+<li><p>从Micrium官网下载ucosii源码</p>
+<p><img src="C:/Users/沉志/AppData/Roaming/Typora/typora-user-images/image-20220215103921491.png"></p>
+</li>
+<li><p>下载之后得到以下文件</p>
+</li>
+</ol>
+<p><img src="/Picture/ucos%E6%BA%90%E7%A0%81.png"></p>
+<ol start="4">
+<li>将ucosii以下几个文件加入到标准库中。</li>
+</ol>
+<p><img src="/Picture/cfg.png"></p>
+<p><img src="/Picture/ports.png"></p>
+<p><img src="/Picture/source.png"></p>
+<ol start="5">
+<li>移植好的ucosii的目录结构</li>
+</ol>
+<p><img src="/Picture/ucos%E7%A7%BB%E6%A4%8D.png"></p>
+<h3 id="十、点灯"><a href="#十、点灯" class="headerlink" title="十、点灯"></a>十、点灯</h3><p>初始化GPIO，配置GPIO模式、速度、引脚</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">GPIO_Config</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  GPIO_InitTypeDef GPIO_InitStruct;</span><br><span class="line">  <span class="comment">//D6 D30  PF6 9 11</span></span><br><span class="line">  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF,ENABLE);</span><br><span class="line">  GPIO_InitStruct.GPIO_Pin=GPIO_Pin_6|GPIO_Pin_9|GPIO_Pin_11|GPIO_Pin_8|GPIO_Pin_7;</span><br><span class="line">  GPIO_InitStruct.GPIO_Mode=GPIO_Mode_OUT;</span><br><span class="line">  GPIO_InitStruct.GPIO_Speed=GPIO_Speed_25MHz;</span><br><span class="line">  GPIO_InitStruct.GPIO_OType=GPIO_OType_PP;    </span><br><span class="line">  GPIO_Init(GPIOF,&amp;GPIO_InitStruct);</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  GPIO_ResetBits(GPIOF,GPIO_Pin_6);</span><br><span class="line">  GPIO_SetBits(GPIOF,GPIO_Pin_7);</span><br><span class="line">  GPIO_SetBits(GPIOF,GPIO_Pin_8);</span><br><span class="line">  GPIO_SetBits(GPIOF,GPIO_Pin_9);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="十一、任务的调度"><a href="#十一、任务的调度" class="headerlink" title="十一、任务的调度"></a>十一、任务的调度</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 信号量建立 */</span></span><br><span class="line">OS_EVENT *DispSem; </span><br><span class="line"><span class="comment">/* 互斥信号量 */</span></span><br><span class="line">OS_EVENT *mutex;</span><br><span class="line"><span class="comment">/* 邮箱 */</span></span><br><span class="line">OS_EVENT *CommMbox;</span><br><span class="line"><span class="comment">/* 消息队列 */</span></span><br><span class="line">OS_EVENT *CommQ;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> *CommMsg[<span class="number">5</span>];</span><br></pre></td></tr></table></figure>
+
+<p>创建任务堆栈</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OS_STK START_STK[64];</span><br></pre></td></tr></table></figure>
+
+<p>声明任务函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void start_task(void * pdata);</span><br></pre></td></tr></table></figure>
+
+<p>初始化操作系统并创建任务</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* LED GPIO初始化 */</span> </span><br><span class="line">    GPIO_Config();     </span><br><span class="line">    <span class="comment">/* 中断初始化 */</span></span><br><span class="line">    EXTIX_Init();</span><br><span class="line">    <span class="comment">/* 初始化系统时钟 */</span></span><br><span class="line">    OS_CPU_SysTickInit(<span class="number">72000000</span> / OS_TICKS_PER_SEC);   </span><br><span class="line">    <span class="comment">/* 初始化 uC/OS-II */</span></span><br><span class="line">    OSInit();     </span><br><span class="line">    <span class="comment">/* 创建任务 */</span></span><br><span class="line">    OSTaskCreate(start_task,(<span class="type">void</span> *)<span class="number">0</span>,(OS_STK *)&amp;START_STK[<span class="number">127</span>],<span class="number">20</span>);  </span><br><span class="line">    <span class="comment">/*启动多任务内核 */</span></span><br><span class="line">    OSStart();            </span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="十二、进程间通信"><a href="#十二、进程间通信" class="headerlink" title="十二、进程间通信"></a>十二、进程间通信</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//---信号量----</span></span><br><span class="line">OS_EVENT *Sem;	<span class="comment">//创建事件块类型指针</span></span><br><span class="line">Sem=OSSemCreate(<span class="number">0</span>);<span class="comment">//创建信号量</span></span><br><span class="line">OSSemPost(Sem);<span class="comment">//释放信号量</span></span><br><span class="line">OSSemPend(Sem,<span class="number">0</span>,&amp;err); <span class="comment">//获取信号量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//----互斥信号量----</span></span><br><span class="line">OS_EVENT *Mutex;	<span class="comment">//创建事件块类型指针</span></span><br><span class="line">Mutex=OSMutexCreate(<span class="number">0</span>,&amp;err);<span class="comment">//创建互斥信号量</span></span><br><span class="line">OSMutexPost(Mutex);<span class="comment">//释放互斥信号量</span></span><br><span class="line">OSMutexPend(Mutex,<span class="number">0</span>,&amp;err); <span class="comment">//获取互斥信号量</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//------消息邮箱----</span></span><br><span class="line">OS_EVENT *Msgbox; 		<span class="comment">//创建事件块类型指针</span></span><br><span class="line">Msgbox=OSMboxCreate((<span class="type">void</span> *)<span class="number">0</span>); <span class="comment">//创建消息邮箱</span></span><br><span class="line">OSMboxPost(Msgbox,(<span class="type">void</span> *)&amp;EXTI_Count);		<span class="comment">//发送数据到消息邮箱</span></span><br><span class="line">C_count=(INT32U *)OSMboxPend(Msgbox,<span class="number">1</span>,&amp;err);  <span class="comment">//获取邮箱数据</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//------消息队列----</span></span><br><span class="line"><span class="type">void</span> *MsgQueueTb1[<span class="number">20</span>];		<span class="comment">//创建消息队列空间</span></span><br><span class="line">OS_EVENT *QMsg;				<span class="comment">//创建事件块类型指针</span></span><br><span class="line">QMsg=OSQCreate(&amp;MsgQueueTb1[<span class="number">0</span>],<span class="number">20</span>);		<span class="comment">//创建消息队列</span></span><br><span class="line">OSQPost(QMsg,(<span class="type">void</span> *)C_count);			<span class="comment">//发送消息到消息队列</span></span><br><span class="line">count=(INT32U *)OSQPend(QMsg,<span class="number">0</span>,&amp;err);	<span class="comment">//获取队列消息</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="关于ucosii和ucosiii"><a href="#关于ucosii和ucosiii" class="headerlink" title="关于ucosii和ucosiii"></a>关于ucosii和ucosiii</h2><h4 id="1、-可剥夺多任务管理："><a href="#1、-可剥夺多任务管理：" class="headerlink" title="1、 可剥夺多任务管理："></a>1、 可剥夺多任务管理：</h4><p>都是属于可剥夺的多任务内核，总是执行当前就绪的最高优先级任务；</p>
+<h4 id="2、同优先级任务的时间片轮转调度："><a href="#2、同优先级任务的时间片轮转调度：" class="headerlink" title="2、同优先级任务的时间片轮转调度："></a>2、同优先级任务的时间片轮转调度：</h4><p>UCOSII任务优先级必须不一致，高优先级的任务就是先被执行，UCOSSII允许一个任务优先级被多个任务使用，当这个优先级处于最高就绪态的时候，UCOSIII就会轮流调度处于这个优先级的所有任务，让每个任务运行一段由用户指定的时间长度，叫做时间片；</p>
+<h4 id="3、极短的关中断时间："><a href="#3、极短的关中断时间：" class="headerlink" title="3、极短的关中断时间："></a>3、极短的关中断时间：</h4><p>UCOSIII可以采用锁定内核调度的方式而不是关中断的方式来保护临界代码，这样就可以将关中断的时间降到最低，似的UCOSIII能够非常迅速的响应中断请求</p>
+<h4 id="4、任务数据不受限制："><a href="#4、任务数据不受限制：" class="headerlink" title="4、任务数据不受限制："></a>4、任务数据不受限制：</h4><p>UCOSII 早期版本只支持 64 个任务，但是从 2.80 版本开始，支持任务数提高到 255 个。 UCOSII 保留了最高4 个优先级和最低 4 个优先级的总共 8 个任务，用于拓展使用，实际上， UCOSII 一般只占用了最低 2 个优先级，分别用于空闲任务（倒数第一）和统计任务（倒数第二），所以剩下给我们使用的任务最多可达 255-2&#x3D;253 个（V2.91）。</p>
+<p>UCOSIII本身是没有任务数据限制的，但是从实际的应用者角度考虑，任务数据会受到CPU所使用的存贮空间的限制，包含代码空间和数据空间</p>
+<h4 id="5、优先级数量不受限制"><a href="#5、优先级数量不受限制" class="headerlink" title="5、优先级数量不受限制"></a>5、优先级数量不受限制</h4><p>UCOSIII支持无限多的任务优先级</p>
+<p><img src="/Picture/ucos2%E5%92%8Cucos3.png"></p>
+<h4 id="6、ucos版本"><a href="#6、ucos版本" class="headerlink" title="6、ucos版本"></a>6、ucos版本</h4><p><img src="/Picture/ucos%E7%89%88%E6%9C%AC.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/">http://example.com/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ucos/">ucos</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">1</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#u-x2F-cos-ii%E7%A7%BB%E6%A4%8D%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.</span> <span class="toc-text">u&#x2F;cos ii移植相关知识点</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#u-x2F-cos-ii%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text">u&#x2F;cos ii系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%AE%9E%E6%97%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.</span> <span class="toc-text">一、实时操作系统的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.2.</span> <span class="toc-text">二、任务的相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8E%A7%E5%88%B6%E5%9D%97"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">2.1 任务的控制块</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%A0%86%E6%A0%88"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">2.2 任务的堆栈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E4%BB%BB%E5%8A%A1%E7%9A%84%E9%93%BE%E8%A1%A8"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">2.3 任务的链表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-ucos-II%E7%B3%BB%E7%BB%9F%E4%BB%BB%E5%8A%A1"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">2.4 ucos-II系统任务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-%E4%BB%BB%E5%8A%A1%E7%9A%84%E7%8A%B6%E6%80%81"><span class="toc-number">1.1.2.5.</span> <span class="toc-text">2.5 任务的状态</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.3.</span> <span class="toc-text">三、任务调度的相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">3.1 任务调度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%88%87%E6%8D%A2"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">3.2 任务的切换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E4%BB%BB%E5%8A%A1%E7%9A%84%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.1.3.3.</span> <span class="toc-text">3.3 任务的优先级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-%E4%BB%BB%E5%8A%A1%E4%BC%98%E5%85%88%E7%BA%A7%E5%88%86%E9%85%8D%E7%9A%84%E5%8E%9F%E5%88%99"><span class="toc-number">1.1.3.4.</span> <span class="toc-text">3.4 任务优先级分配的原则</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%8C%82%E8%B5%B7"><span class="toc-number">1.1.3.5.</span> <span class="toc-text">3.6 任务的挂起</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7-%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%81%A2%E5%A4%8D"><span class="toc-number">1.1.3.6.</span> <span class="toc-text">3.7 任务的恢复</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%B8%AD%E6%96%AD%E7%9A%84%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.4.</span> <span class="toc-text">四、中断的相关概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-%E4%B8%AD%E6%96%AD%E5%B5%8C%E5%A5%97%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">4.1 中断嵌套概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%A4%84%E7%90%86%E4%B8%AD%E6%96%AD"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">4.2 操作系统如何处理中断</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">1.1.5.</span> <span class="toc-text">五、进程通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-number">1.1.5.1.</span> <span class="toc-text">5.1 信号量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-%E4%BA%92%E6%96%A5%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="toc-number">1.1.5.2.</span> <span class="toc-text">5.2 互斥信号量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-3-%E9%82%AE%E7%AE%B1"><span class="toc-number">1.1.5.3.</span> <span class="toc-text">5.3 邮箱</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-4-%E9%98%9F%E5%88%97"><span class="toc-number">1.1.5.4.</span> <span class="toc-text">5.4 队列</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.6.</span> <span class="toc-text">六、内存管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%B9%B3%E5%8F%B0"><span class="toc-number">1.2.</span> <span class="toc-text">嵌入式平台</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%83%E3%80%81GPIO%E7%9A%84%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">七、GPIO的驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#7-1-%E6%8E%A8%E6%8C%BD%E8%BE%93%E5%87%BA"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">7.1 推挽输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-2-%E6%8E%A8%E6%8C%BD%E5%BC%8F%E5%A4%8D%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">7.2 推挽式复用功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-3-%E5%BC%80%E6%BC%8F%E8%BE%93%E5%87%BA"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">7.3 开漏输出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-4-%E5%BC%80%E6%BC%8F%E5%A4%8D%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">7.4 开漏复用功能</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-5-%E6%A8%A1%E6%8B%9F%E8%BE%93%E5%85%A5"><span class="toc-number">1.2.1.5.</span> <span class="toc-text">7.5 模拟输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-6-%E8%BE%93%E5%85%A5%E6%B5%AE%E7%A9%BA"><span class="toc-number">1.2.1.6.</span> <span class="toc-text">7.6 输入浮空</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-8-%E8%BE%93%E5%85%A5%E4%B8%8A%E6%8B%89"><span class="toc-number">1.2.1.7.</span> <span class="toc-text">7.8 输入上拉</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-9-%E8%BE%93%E5%85%A5%E4%B8%8B%E6%8B%89"><span class="toc-number">1.2.1.8.</span> <span class="toc-text">7.9 输入下拉</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E9%A9%B1%E5%8A%A8"><span class="toc-number">1.2.2.</span> <span class="toc-text">八、定时器的驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-STM32%E5%AE%9A%E6%97%B6%E5%99%A8%E7%AE%80%E8%BF%B0"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">8.1 STM32定时器简述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-1-STM32%E9%80%9A%E7%94%A8%E5%AE%9A%E6%97%B6%E5%99%A8%E7%9A%84%E9%87%8D%E8%A6%81%E7%9F%A5%E8%AF%86%E7%82%B9"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">8.1 STM32通用定时器的重要知识点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-SysTick%EF%BC%88%E7%B3%BB%E7%BB%9F%E6%BB%B4%E7%AD%94%E5%AE%9A%E6%97%B6%E5%99%A8%EF%BC%89%E6%A6%82%E8%BF%B0"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">8.3 SysTick（系统滴答定时器）概述</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ucos%E7%A7%BB%E6%A4%8D"><span class="toc-number">1.3.</span> <span class="toc-text">ucos移植</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%9D%E3%80%81ucos%E7%9A%84%E7%A7%BB%E6%A4%8D"><span class="toc-number">1.3.1.</span> <span class="toc-text">九、ucos的移植</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E7%82%B9%E7%81%AF"><span class="toc-number">1.3.2.</span> <span class="toc-text">十、点灯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E4%BB%BB%E5%8A%A1%E7%9A%84%E8%B0%83%E5%BA%A6"><span class="toc-number">1.3.3.</span> <span class="toc-text">十一、任务的调度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E8%BF%9B%E7%A8%8B%E9%97%B4%E9%80%9A%E4%BF%A1"><span class="toc-number">1.3.4.</span> <span class="toc-text">十二、进程间通信</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Eucosii%E5%92%8Cucosiii"><span class="toc-number">1.4.</span> <span class="toc-text">关于ucosii和ucosiii</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81-%E5%8F%AF%E5%89%A5%E5%A4%BA%E5%A4%9A%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86%EF%BC%9A"><span class="toc-number">1.4.0.1.</span> <span class="toc-text">1、 可剥夺多任务管理：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%90%8C%E4%BC%98%E5%85%88%E7%BA%A7%E4%BB%BB%E5%8A%A1%E7%9A%84%E6%97%B6%E9%97%B4%E7%89%87%E8%BD%AE%E8%BD%AC%E8%B0%83%E5%BA%A6%EF%BC%9A"><span class="toc-number">1.4.0.2.</span> <span class="toc-text">2、同优先级任务的时间片轮转调度：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E6%9E%81%E7%9F%AD%E7%9A%84%E5%85%B3%E4%B8%AD%E6%96%AD%E6%97%B6%E9%97%B4%EF%BC%9A"><span class="toc-number">1.4.0.3.</span> <span class="toc-text">3、极短的关中断时间：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81%E4%BB%BB%E5%8A%A1%E6%95%B0%E6%8D%AE%E4%B8%8D%E5%8F%97%E9%99%90%E5%88%B6%EF%BC%9A"><span class="toc-number">1.4.0.4.</span> <span class="toc-text">4、任务数据不受限制：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5%E3%80%81%E4%BC%98%E5%85%88%E7%BA%A7%E6%95%B0%E9%87%8F%E4%B8%8D%E5%8F%97%E9%99%90%E5%88%B6"><span class="toc-number">1.4.0.5.</span> <span class="toc-text">5、优先级数量不受限制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6%E3%80%81ucos%E7%89%88%E6%9C%AC"><span class="toc-number">1.4.0.6.</span> <span class="toc-text">6、ucos版本</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/" title="u/cos ii"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="u/cos ii"/></a><div class="content"><a class="title" href="/2022/05/29/ucos%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/" title="u/cos ii">u/cos ii</a><time datetime="2022-05-29T13:42:56.000Z" title="Created 2022-05-29 21:42:56">2022-05-29</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
