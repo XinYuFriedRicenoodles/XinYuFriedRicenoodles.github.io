@@ -3556,10 +3556,12 @@ h1.page-title + .tag-cloud-list {
   background: var(--text-bg-hover);
 }
 #nav .menus_items .menus_item .menus_item_child li:first-child {
-  border-radius: 5px 5px 0 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 }
 #nav .menus_items .menus_item .menus_item_child li:last-child {
-  border-radius: 0 0 5px 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 #nav .menus_items .menus_item .menus_item_child li a {
   display: inline-block;
